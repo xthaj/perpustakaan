@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>[[${pageTitle}]]</title>
+  <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/3.3.6/css/bootstrap.min.css}"/>
+</head>
+<body>
+
+<div class="container-fluid text-center">
+  <h1>[[${pageTitle}]]</h1>
+  <form th:action="@{/users/save}" th:object="${user}" method="post">
+    <div>
+      <input type="hidden" th:field="*{id}">
+      <div class="form-group row">
+        <label>NIM:</label>
+        <div class="">
+          <input type="text" th:field="*{nim}" required/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label>Password:</label>
+        <div class="">
+          <input type="password" th:field="*{password}" required/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label>Nama:</label>
+        <div class="">
+          <input type="text" th:field="*{nama}" required/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label>Is Librarian:</label>
+        <div class="">
+          <input type="checkbox" th:field="*{adalah_pustakawan}"/>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-secondary" onclick="cancelForm()">Cancel</button>
+
+  </form>
+
+
+  </form>
+</div>
+<script type="text/javascript">
+  function cancelForm() {
+    window.location = "[[@{/users}]]"
+  }
+</script>
+</body>
+</html>
