@@ -1,5 +1,8 @@
 package com.uas.pbo.user;
 
+import com.uas.pbo.exceptions.InvalidCredentialsException;
+import com.uas.pbo.exceptions.UserNotFoundException;
+import com.uas.pbo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,17 +26,25 @@ import java.util.List;
         return "users";
     }
 
-    @GetMapping("/index")
-    public String showLoginBoot(Model model) {
-        return "index";
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        return "login";
     }
 
-    @GetMapping("/users/new")
-    public String showNewForm(Model model) {
+    @GetMapping("/users/register")
+    public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("pageTitle", "Add New User");
-        return "user_form";
+        return "register";
     }
+
+    @PostMapping("/user/register")
+    public String registerUser(User user, RedirectAttributes ra) {
+        service.save(user);
+        ra.addFlashAttribute("message", "The user has been saved successfully.");
+        return "redirect:/index";
+    }
+
 
     @PostMapping("/users/save")
     public String saveUser(User user, RedirectAttributes ra) {
@@ -82,6 +93,12 @@ import java.util.List;
 
         return "redirect:/"; // Redirect back to the login page with an error message
     }
+
+    @GetMapping("/index")
+    public String showIndex(Model model) {
+        return "index";
+    }
+
 
 
 

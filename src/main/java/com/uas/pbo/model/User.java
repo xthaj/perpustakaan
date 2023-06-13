@@ -1,4 +1,4 @@
-package com.uas.pbo.user;
+package com.uas.pbo.model;
 
 import jakarta.persistence.*;
 

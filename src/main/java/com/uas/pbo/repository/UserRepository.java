@@ -1,5 +1,6 @@
-package com.uas.pbo.user;
+package com.uas.pbo.repository;
 
+import com.uas.pbo.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
