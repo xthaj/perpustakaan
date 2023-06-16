@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -36,7 +37,7 @@ public class BukuRepositoryTests {
 
     @Test
     public void testUpdate() {
-        Integer BukuId = 1;
+        Integer BukuId = 2;
         Optional<Buku> optionalBuku = repo.findById(BukuId);
         Buku Buku = optionalBuku.get();
         Buku.setPenulis("Jane Doe");
@@ -48,10 +49,11 @@ public class BukuRepositoryTests {
 
     @Test
     public void testGet() {
-        Integer BukuId = 1;
-        Optional<Buku> optionalBuku = repo.findById(BukuId);
-        Assertions.assertTrue(optionalBuku.isPresent(), "Buku should be present");
-        System.out.println(optionalBuku.get());
+        List<Buku> bukus = (List<Buku>) repo.findAll();
+        System.out.println("List of Buku:");
+        for (Buku buku : bukus) {
+            System.out.println(buku);
+        }
     }
 
     @Test

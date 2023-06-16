@@ -1,9 +1,10 @@
-package com.uas.pbo.user;
+package com.uas.pbo.service;
 
 import com.uas.pbo.exceptions.InvalidCredentialsException;
 import com.uas.pbo.exceptions.UserNotFoundException;
 import com.uas.pbo.model.User;
 import com.uas.pbo.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,12 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired private UserRepository repo;
+    @Autowired
+    private HttpSession session;
 
-    public List<User> listAll() {
-        return (List<User>) repo.findAll();
-    }
+//    public List<User> listAll() {
+//        return (List<User>) repo.findAll();
+//    }
 
     public void save(User user) {
         repo.save(user);
@@ -41,10 +44,11 @@ public class UserService {
         repo.deleteById(id);
     }
 
-    public User login(String nim, String password) throws UserNotFoundException, InvalidCredentialsException {
+    public User login(String nim, String password, HttpSession session) throws UserNotFoundException, InvalidCredentialsException {
         User user = repo.findByNim(nim);
         if (user != null) {
             if (user.getPassword().equals(password)) {
+                session.setAttribute("userId", user.getId());
                 return user;
             } else {
                 throw new InvalidCredentialsException("Invalid password");
@@ -53,6 +57,8 @@ public class UserService {
             throw new UserNotFoundException("NIM is not registered");
         }
     }
+
+
 
 
 

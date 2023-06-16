@@ -10,7 +10,7 @@ public class EksemplarBuku {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "isbn")
+    @JoinColumn(name = "isbn", referencedColumnName = "isbn")
     private Buku buku;
 
     @Column

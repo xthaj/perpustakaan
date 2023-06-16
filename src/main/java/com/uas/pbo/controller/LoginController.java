@@ -1,8 +1,11 @@
-package com.uas.pbo.user;
+package com.uas.pbo.controller;
 
 import com.uas.pbo.exceptions.InvalidCredentialsException;
 import com.uas.pbo.exceptions.UserNotFoundException;
 import com.uas.pbo.model.User;
+import com.uas.pbo.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +17,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-    public class UserController {
+    public class LoginController {
     @Autowired
     private UserService service;
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/users")
     public String showUserList(Model model) {
-        List<User> listUsers = service.listAll();
-        model.addAttribute("listUsers", listUsers);
+//        List<User> listUsers = service.listAll();
+//        model.addAttribute("listUsers", listUsers);
 
         return "users";
     }
@@ -45,7 +50,6 @@ import java.util.List;
         return "redirect:/index";
     }
 
-
     @PostMapping("/users/save")
     public String saveUser(User user, RedirectAttributes ra) {
         service.save(user);
@@ -64,7 +68,6 @@ import java.util.List;
             ra.addFlashAttribute("message", "The user has been saved successfully.");
             return "redirect:/users";
         }
-
     }
 
     @GetMapping("/users/delete/{id}")
@@ -76,22 +79,45 @@ import java.util.List;
         }
 
         return "redirect:/users";
-
     }
 
-    @PostMapping("/users/login")
-    public String login(String nim, String password, RedirectAttributes ra) {
+    @PostMapping("/login")
+    public String login(String nim, String password, RedirectAttributes ra, HttpServletRequest request, Model model) {
         try {
-            User user = service.login(nim, password);
-            // Successful login, perform any additional actions here
-            return "redirect:/index"; // Redirect to the desired page after successful login
+            HttpSession session = request.getSession();
+
+            User user = service.login(nim, password, session);
+
+            boolean loggedIn = session.getAttribute("userId") != null;
+            System.out.println("loggedIn: " + loggedIn);
+
+            model.addAttribute("loggedIn", loggedIn);
+
+            if (user.getAdalah_pustakawan()) {
+                return "redirect:/librarian/index";
+            } else {
+                return "redirect:/user/index";
+            }
         } catch (UserNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
         } catch (InvalidCredentialsException e) {
             ra.addFlashAttribute("message", e.getMessage());
         }
 
-        return "redirect:/"; // Redirect back to the login page with an error message
+        return "redirect:/login"; // Redirect back to the login page with an error message
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes ra) {
+        // Clear the session attributes and invalidate the session
+        session.removeAttribute("userId");
+        session.invalidate();
+
+        // Add a flash attribute for the logout success message
+        ra.addFlashAttribute("message", "Logout successful.");
+
+        // Redirect the user to the login page
+        return "redirect:/login";
     }
 
     @GetMapping("/index")
@@ -99,7 +125,9 @@ import java.util.List;
         return "index";
     }
 
-
-
+    @GetMapping("/buku")
+    public String showBuku(Model model) {
+        return "/user/buku";
+    }
 
 }
