@@ -2,6 +2,9 @@ package com.uas.pbo.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Buku {
     @Id
@@ -19,6 +22,31 @@ public class Buku {
     private Boolean tentangKalkulus;
     @Column(name = "tentang_alin")
     private Boolean tentangAlin;
+
+    @ManyToMany
+    @JoinTable(
+            name = "buku_waitlist",
+            joinColumns = @JoinColumn(name = "buku_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> waitlist;
+
+    public void addUserToWaitlist(User user) {
+        if (waitlist == null) {
+            waitlist = new ArrayList<>();
+        }
+        waitlist.add(user);
+    }
+
+    public void removeUserFromWaitlist(User user) {
+        if (waitlist != null) {
+            waitlist.remove(user);
+        }
+    }
+
+    public List<User> getWaitlist() {
+        return waitlist;
+    }
 
     public Integer getId() {
         return id;

@@ -129,28 +129,16 @@
           <tr>
             <th scope="col">ISBN</th>
             <th scope="col">Judul Buku</th>
-            <th scope="col">ID Eksemplar</th>
-            <th scope="col">Nama Peminjam</th>
-            <th scope="col">Konfirmasi Pengembalian</th>
           </tr>
           </thead>
           <tbody>
-          <th:block th:each="peminjaman : ${listPeminjaman}">
-            <tr>
-              <td th:text="${peminjaman.buku.isbn}"></td>
-              <td th:text="${peminjaman.buku.judul}"></td>
-              <td th:text="${peminjaman.eksemplarBuku.id}"></td>
-              <td th:text="${peminjaman.user.nama}"></td>
-              <td>
-                <form th:action="@{'/librarian/peminjaman/confirm/' + ${peminjaman.id}}" method="post">
-                  <input type="hidden" name="_method" value="post" />
-                  <button type="submit">Sudah dikembalikan</button>
-                </form>
-              </td>
-            </tr>
-          </th:block>
+          <tr th:each="peminjaman : ${listPeminjaman}">
+            <td th:text="${peminjaman.buku.isbn}"></td>
+            <td th:text="${peminjaman.buku.judul}"></td>
+          </tr>
           </tbody>
         </table>
+
 
       </div>
     </main>
