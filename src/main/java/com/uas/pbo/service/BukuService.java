@@ -1,6 +1,9 @@
 package com.uas.pbo.service;
 
+import com.uas.pbo.exceptions.BukuNotFoundException;
+import com.uas.pbo.exceptions.UserNotFoundException;
 import com.uas.pbo.model.Buku;
+import com.uas.pbo.model.User;
 import com.uas.pbo.repository.BukuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,21 +14,26 @@ import java.util.*;
 public class BukuService {
     @Autowired
     private BukuRepository repo;
-        public List<Buku> listAll() {
-            return (List<Buku>) repo.findAll();
+    public List<Buku> listAll() {
+        return (List<Buku>) repo.findAll();
+    }
+
+    public void save(Buku buku) {
+        repo.save(buku);
+    }
+
+    public Buku get(Integer id) throws BukuNotFoundException {
+        Optional<Buku> result = repo.findById(id);
+        if (result.isPresent()) {
+            return result.get();
         }
 
-        public void save(Buku buku) {
-            repo.save(buku);
-        }
+        throw new BukuNotFoundException();
+    }
 
-        public Optional<Buku> findBukuById(Integer id) {
-            return repo.findById(id);
-        }
-
-        public void deleteBukuById(Integer id) {
-            repo.deleteById(id);
-        }
+    public void delete(Integer id) {
+        repo.deleteById(id);
+    }
 
 
 

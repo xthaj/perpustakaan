@@ -118,6 +118,10 @@
                 <h1 class="h2">Buku</h1>
             </div>
 
+            <div th:if="${message}" class="alert alert-success">
+                <span th:text="${message}"></span>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
 
@@ -131,7 +135,6 @@
                     </tr>
                     </thead>
                     <tbody>
-<<<<<<< HEAD
                     <tr th:each="buku : ${listBuku}">
                         <td th:text="${buku.isbn}"></td>
                         <td th:text="${buku.judul}"></td>
@@ -152,24 +155,7 @@
                             <a class="h4" th:href="@{'/buku/' + ${buku.id} + '/waitlist'}">Waitlist</a>
                         </td>
                     </tr>
-=======
-                    <th:block th:each="buku: ${listBuku}">
-                        <tr>
-                            <td th:text="${buku.isbn}"></td>
-                            <td th:text="${buku.judul}"></td>
-                            <td th:text="${buku.penulis}"></td>
-                            <td>
-                                <span th:if="${buku.tentangAlin}">Alin</span>
-                                <span th:if="${buku.tentangKalkulus}">Kalkulus</span>
-                                <span th:if="${buku.tentangMetsur}">Metsur</span>
-                            </td>
-                            <td>
-                                <a class="h4" th:href="@{'/pinjam/' + ${user.id}}">Pinjam Buku Ini</a>
-                            </td>
 
-                        </tr>
-                    </th:block>
->>>>>>> parent of 3ffd5e7 (why is my last commit not committing)
                     </tbody>
                 </table>
             </div>

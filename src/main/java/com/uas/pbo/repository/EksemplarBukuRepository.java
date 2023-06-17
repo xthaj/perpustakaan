@@ -22,7 +22,6 @@ public interface EksemplarBukuRepository extends CrudRepository<EksemplarBuku, I
         return null;
     }
 
-    List<EksemplarBuku> findAllByIsbn(String isbn);
 
     @Query("SELECT b FROM Buku b WHERE b.isbn = :isbn")
     Buku getBookByIsbn(@Param("isbn") String isbn);

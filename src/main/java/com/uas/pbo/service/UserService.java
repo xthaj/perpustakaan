@@ -14,12 +14,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired private UserRepository repo;
-    @Autowired
-    private HttpSession session;
-
-//    public List<User> listAll() {
-//        return (List<User>) repo.findAll();
-//    }
+    @Autowired private HttpSession session;
 
     public void save(User user) {
         repo.save(user);
@@ -58,8 +53,8 @@ public class UserService {
         }
     }
 
-
-
-
+    public String getUserNameById(Integer userId) {
+        return repo.getNamaById(userId);
+    }
 
 }

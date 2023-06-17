@@ -1,9 +1,7 @@
 package com.uas.pbo.service;
 
 import com.uas.pbo.exceptions.PeminjamanNotFoundException;
-import com.uas.pbo.exceptions.PeminjamanNotFoundException;
-import com.uas.pbo.model.EksemplarBuku;
-import com.uas.pbo.model.Peminjaman;
+import com.uas.pbo.model.*;
 import com.uas.pbo.repository.EksemplarBukuRepository;
 import com.uas.pbo.repository.PeminjamanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +16,12 @@ public class PeminjamanService {
     private PeminjamanRepository peminjamanRepository;
     @Autowired
     private EksemplarBukuRepository eksemplarRepository;
+    @Autowired
+    private WaitlistService waitlistService;
 
     public Peminjaman save(Peminjaman peminjaman) {
         return peminjamanRepository.save(peminjaman);
     }
-
-
 
     public Peminjaman getById(Integer id) throws PeminjamanNotFoundException {
         Optional<Peminjaman> peminjamanOptional = peminjamanRepository.findById(id);
@@ -35,10 +33,6 @@ public class PeminjamanService {
 
     public List<Peminjaman> listAll() {
         return (List<Peminjaman>) peminjamanRepository.findAll();
-    }
-
-    public List<Peminjaman> listByUserId(Integer userId) {
-        return peminjamanRepository.findByUserId(userId);
     }
 
     public void delete(Integer id) throws PeminjamanNotFoundException {
@@ -59,7 +53,26 @@ public class PeminjamanService {
         // Save the updated peminjaman and eksemplar buku
         peminjamanRepository.delete(peminjaman);
         eksemplarRepository.save(eksemplarBuku);
+
+        // Trigger notification and update waitlist
+        Buku buku = eksemplarBuku.getBuku();
+        List<Waitlist> waitlistEntries = waitlistService.getWaitlistByBukuId(buku.getId());
+
+        for (Waitlist waitlist : waitlistEntries) {
+            User user = waitlist.getUser();
+            waitlist.setUpdated(true);
+            waitlistService.save(waitlist);
+        }
     }
 
-}
+    public List<Peminjaman> findByUserId(Integer userId) {
+        return peminjamanRepository.findByUserId(userId);
+    }
 
+    public int getTotalPeminjamanCount() {
+        return peminjamanRepository.getTotalCount();
+    }
+
+
+
+}

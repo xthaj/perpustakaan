@@ -1,29 +1,22 @@
 package com.uas.pbo.model;
-
 import jakarta.persistence.*;
 
-import java.util.Date;
 
 @Entity
-public class Peminjaman {
+public class Waitlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "isbn")
+    @JoinColumn(name = "buku_id")
     private Buku buku;
-
-    @ManyToOne
-    @JoinColumn(name = "eksemplar_id")
-    private EksemplarBuku eksemplarBuku;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "tanggal_peminjaman")
-    private Date tanggalPeminjaman;
+    private boolean isUpdated;
 
     public Integer getId() {
         return id;
@@ -41,14 +34,6 @@ public class Peminjaman {
         this.buku = buku;
     }
 
-    public EksemplarBuku getEksemplarBuku() {
-        return eksemplarBuku;
-    }
-
-    public void setEksemplarBuku(EksemplarBuku eksemplarBuku) {
-        this.eksemplarBuku = eksemplarBuku;
-    }
-
     public User getUser() {
         return user;
     }
@@ -57,13 +42,11 @@ public class Peminjaman {
         this.user = user;
     }
 
-    public Date getTanggalPeminjaman() {
-        return tanggalPeminjaman;
+    public boolean isUpdated() {
+        return isUpdated;
     }
 
-    public void setTanggalPeminjaman(Date tanggalPeminjaman) {
-        this.tanggalPeminjaman = tanggalPeminjaman;
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
     }
-
-
 }

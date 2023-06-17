@@ -2,6 +2,7 @@ package com.uas.pbo;
 
 import com.uas.pbo.model.Buku;
 import com.uas.pbo.repository.BukuRepository;
+import com.uas.pbo.repository.WaitlistRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public class BukuRepositoryTests {
     @Autowired
     private BukuRepository repo;
+    @Autowired
+    private WaitlistRepository waitlistRepository;
 
     @Test
     public void testAddNew() {
@@ -45,6 +48,12 @@ public class BukuRepositoryTests {
 
         Buku updatedBuku = repo.findById(BukuId).get();
         Assertions.assertEquals("Jane Doe", updatedBuku.getPenulis(), "Penulis should match");
+    }
+
+    @Test
+    public void testGetTotalCount() {
+        int totalCount = waitlistRepository.getTotalCount();
+        System.out.println(totalCount);
     }
 
     @Test

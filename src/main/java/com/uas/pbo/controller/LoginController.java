@@ -23,14 +23,6 @@ import java.util.List;
     @Autowired
     private HttpServletRequest request;
 
-    @GetMapping("/users")
-    public String showUserList(Model model) {
-//        List<User> listUsers = service.listAll();
-//        model.addAttribute("listUsers", listUsers);
-
-        return "users";
-    }
-
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         return "login";
@@ -54,30 +46,6 @@ import java.util.List;
     public String saveUser(User user, RedirectAttributes ra) {
         service.save(user);
         ra.addFlashAttribute("message", "The user has been saved successfully.");
-        return "redirect:/users";
-    }
-
-    @GetMapping("/users/edit/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
-        try {
-            User user = service.get(id);
-            model.addAttribute("user", user);
-            model.addAttribute("pageTitle", "Edit User");
-            return "user_form";
-        } catch (UserNotFoundException e) {
-            ra.addFlashAttribute("message", "The user has been saved successfully.");
-            return "redirect:/users";
-        }
-    }
-
-    @GetMapping("/users/delete/{id}")
-    public String showDeleteForm(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        try {
-            service.delete(id);
-        } catch (UserNotFoundException e) {
-            ra.addFlashAttribute("message", e.getMessage());
-        }
-
         return "redirect:/users";
     }
 

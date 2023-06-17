@@ -1,11 +1,10 @@
 package com.uas.pbo.controller;
 
-import com.uas.pbo.exceptions.BukuNotFoundException;
-import com.uas.pbo.model.Buku;
-import com.uas.pbo.model.EksemplarBuku;
-import com.uas.pbo.model.User;
-import com.uas.pbo.service.BukuService;
-import com.uas.pbo.service.EksemplarBukuService;
+import com.uas.pbo.exceptions.*;
+import com.uas.pbo.exceptions.UserNotFoundException;
+import com.uas.pbo.model.*;
+import com.uas.pbo.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +21,30 @@ public class LibrarianController {
     @Autowired
     private BukuService bukuService;
     @Autowired
+    private UserService userService;
+    @Autowired
+    private WaitlistService waitlistService;
+    @Autowired
     private EksemplarBukuService eksemplarBukuService;
+    @Autowired
+    private PeminjamanService peminjamanService;
+
 
     @GetMapping("/librarian/index")
-    public String showIndexLibrarian(Model model) {
+    public String showIndexLibrarian(Model model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        String userName = userService.getUserNameById(userId);
+
+        model.addAttribute("userId", userId);
+        model.addAttribute("userName", userName);
+
+        //quick stats
+        int peminjamanCount = peminjamanService.getTotalPeminjamanCount();
+        int wishlistCount = waitlistService.getTotalWaitlistCount();
+
+        model.addAttribute("peminjamanCount", peminjamanCount);
+        model.addAttribute("wishlistCount", wishlistCount);
+
         return "librarian/dashboard";
     }
 
@@ -34,6 +53,7 @@ public class LibrarianController {
         List<Buku> listBuku = bukuService.listAll();
         model.addAttribute("listBuku", listBuku);
         model.addAttribute("eksemplarBukuService", eksemplarBukuService);
+
 
         return "librarian/buku";
     }
@@ -54,26 +74,41 @@ public class LibrarianController {
     }
 
     @GetMapping("/librarian/buku/{id}/edit")
-    public String showEditBukuForm(Model model) {
-        model.addAttribute("buku", new Buku());
-        model.addAttribute("pageTitle", "Tambah Buku Baru");
+    public String showEditBukuForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            Buku buku = bukuService.get(id);
+            model.addAttribute("buku", buku);
+            model.addAttribute("pageTitle", "Edit Buku");
 
-        return "buku_form";
+
+            return "librarian/buku_form";
+        } catch (BukuNotFoundException e) {
+            ra.addFlashAttribute("message", "Buku telah diedit.");
+            return "redirect:/librarian/buku";
+        }
     }
 
-    @GetMapping("/librarian/edit/{isbn}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
-        Optional<Buku> buku = bukuService.findBukuById(id);
-        model.addAttribute("buku", buku);
-        model.addAttribute("pageTitle", "Edit Buku");
-        return "buku_form";
+    @GetMapping("/librarian/buku/{id}/delete")
+    public String deleteBook(@PathVariable("id") Integer id, RedirectAttributes ra) {
+        bukuService.delete(id);
+        ra.addFlashAttribute("message", "The book has been deleted successfully.");
+        return "redirect:/librarian/buku";
     }
 
-
+    @PostMapping("/librarian/peminjaman/confirm/{id}")
+    public String confirmPeminjaman(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws PeminjamanNotFoundException {
+        peminjamanService.confirmPeminjaman(id);
+        redirectAttributes.addFlashAttribute("message", "Peminjaman sudah dikembalikan.");
+        return "redirect:/librarian/peminjaman";
+    }
 
 
     @GetMapping("/librarian/peminjaman")
     public String showPeminjamanLibrarian(Model model) {
+        List<Peminjaman> peminjamanList = peminjamanService.listAll();
+        model.addAttribute("listPeminjaman", peminjamanList);
+        model.addAttribute("pageTitle", "Daftar Peminjaman");
+
         return "librarian/peminjaman";
     }
 
@@ -95,6 +130,8 @@ public class LibrarianController {
         eksemplarBukuService.deleteEksemplarBukuByIsbn(isbn, redirectAttributes);
         return "redirect:/librarian/buku";
     }
+
+
 
 
 
