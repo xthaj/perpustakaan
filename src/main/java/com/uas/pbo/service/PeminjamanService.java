@@ -65,6 +65,10 @@ public class PeminjamanService {
         }
     }
 
+    public boolean hasUserBorrowedBook(Integer userId, String isbn) {
+        return peminjamanRepository.existsByUserIdAndBukuIsbn(userId, isbn);
+    }
+
     public List<Peminjaman> findByUserId(Integer userId) {
         return peminjamanRepository.findByUserId(userId);
     }

@@ -128,49 +128,36 @@
         <h1 class="h2">[[${pageTitle}]]</h1>
       </div>
 
-      <form th:action="@{/librarian/buku/save}" th:object="${buku}" method="post">
-        <div>
+      <form th:action="@{/librarian/buku/save}" th:object="${buku}" method="post" class="mt-4">
+        <div class="form-group">
           <input type="hidden" th:field="*{id}">
-          <div class="form-group row">
-            <label>ISBN:</label>
-            <div class="">
-              <input type="text" th:field="*{isbn}" required/>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label>Judul:</label>
-            <div class="">
-              <input type="text" th:field="*{judul}" required/>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label>Penulis:</label>
-            <div class="">
-              <input type="text" th:field="*{penulis}" required/>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label>Tentang Metsur:</label>
-            <div class="">
-              <input type="checkbox" th:field="*{tentangMetsur}"/>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label>Tentang Kalkulus:</label>
-            <div class="">
-              <input type="checkbox" th:field="*{tentangKalkulus}"/>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label>Tentang Alin:</label>
-            <div class="">
-              <input type="checkbox" th:field="*{tentangAlin}"/>
-            </div>
-          </div>
+          <label for="isbn">ISBN:</label>
+          <input type="text" class="form-control" id="isbn" th:field="*{isbn}" required/>
+        </div>
+        <div class="form-group">
+          <label for="judul">Judul:</label>
+          <input type="text" class="form-control" id="judul" th:field="*{judul}" required/>
+        </div>
+        <div class="form-group">
+          <label for="penulis">Penulis:</label>
+          <input type="text" class="form-control" id="penulis" th:field="*{penulis}" required/>
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="tentangMetsur" th:field="*{tentangMetsur}"/>
+          <label class="form-check-label" for="tentangMetsur">Tentang Metsur</label>
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="tentangKalkulus" th:field="*{tentangKalkulus}"/>
+          <label class="form-check-label" for="tentangKalkulus">Tentang Kalkulus</label>
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="tentangAlin" th:field="*{tentangAlin}"/>
+          <label class="form-check-label" for="tentangAlin">Tentang Alin</label>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <button type="button" class="btn btn-secondary" onclick="cancelForm()">Cancel</button>
       </form>
+
 
     </main>
   </div>

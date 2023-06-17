@@ -29,7 +29,6 @@ public class LibrarianController {
     @Autowired
     private PeminjamanService peminjamanService;
 
-
     @GetMapping("/librarian/index")
     public String showIndexLibrarian(Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
@@ -69,7 +68,7 @@ public class LibrarianController {
     @PostMapping("/librarian/buku/save")
     public String saveBook(Buku buku, RedirectAttributes ra) {
         bukuService.save(buku);
-        ra.addFlashAttribute("message", "The user has been saved successfully.");
+        ra.addFlashAttribute("message", "Buku telah disimpan.");
         return "redirect:/librarian/buku";
     }
 
@@ -91,7 +90,7 @@ public class LibrarianController {
     @GetMapping("/librarian/buku/{id}/delete")
     public String deleteBook(@PathVariable("id") Integer id, RedirectAttributes ra) {
         bukuService.delete(id);
-        ra.addFlashAttribute("message", "The book has been deleted successfully.");
+        ra.addFlashAttribute("message", "Buku berhasil dihapus.");
         return "redirect:/librarian/buku";
     }
 
@@ -107,9 +106,16 @@ public class LibrarianController {
     public String showPeminjamanLibrarian(Model model) {
         List<Peminjaman> peminjamanList = peminjamanService.listAll();
         model.addAttribute("listPeminjaman", peminjamanList);
-        model.addAttribute("pageTitle", "Daftar Peminjaman");
 
         return "librarian/peminjaman";
+    }
+
+    @GetMapping("/librarian/waitlist")
+    public String showWaitlistLibrarian(Model model) {
+        List<Waitlist> waitlist = waitlistService.listAll();
+        model.addAttribute("Waitlist", waitlist);
+
+        return "librarian/waitlist";
     }
 
     @GetMapping("/eksemplar/{isbn}")

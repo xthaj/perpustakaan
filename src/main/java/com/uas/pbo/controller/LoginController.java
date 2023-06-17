@@ -31,7 +31,6 @@ import java.util.List;
     @GetMapping("/users/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("pageTitle", "Add New User");
         return "register";
     }
 
@@ -40,13 +39,6 @@ import java.util.List;
         service.save(user);
         ra.addFlashAttribute("message", "The user has been saved successfully.");
         return "redirect:/index";
-    }
-
-    @PostMapping("/users/save")
-    public String saveUser(User user, RedirectAttributes ra) {
-        service.save(user);
-        ra.addFlashAttribute("message", "The user has been saved successfully.");
-        return "redirect:/users";
     }
 
     @PostMapping("/login")
@@ -82,16 +74,12 @@ import java.util.List;
         session.invalidate();
 
         // Add a flash attribute for the logout success message
-        ra.addFlashAttribute("message", "Logout successful.");
+        ra.addFlashAttribute("message", "Logout berhasil.");
 
         // Redirect the user to the login page
         return "redirect:/login";
     }
 
-    @GetMapping("/index")
-    public String showIndex(Model model) {
-        return "index";
-    }
 
     @GetMapping("/buku")
     public String showBuku(Model model) {

@@ -55,4 +55,10 @@ public class WaitlistService {
     public int getTotalWaitlistCount() {
         return waitlistRepository.getTotalCount();
     }
+
+    public List<Waitlist> listAll() {
+        return waitlistRepository.findAll();
+    }
+
+
 }

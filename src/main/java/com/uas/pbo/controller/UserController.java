@@ -66,6 +66,13 @@ public class UserController {
         Integer userId = (Integer) session.getAttribute("userId");
         User user = userService.get(userId);
 
+        // Check if the user has already borrowed the book
+        boolean hasUserBorrowedBook = peminjamanService.hasUserBorrowedBook(user.getId(), isbn);
+        if (hasUserBorrowedBook) {
+            ra.addFlashAttribute("message", "You have already borrowed a copy of this book.");
+            return "redirect:/user/buku";
+        }
+
         // Find an available EksemplarBuku for the given ISBN
         List<EksemplarBuku> availableEksemplars = eksemplarBukuService.findByBukuIsbn(isbn);
 

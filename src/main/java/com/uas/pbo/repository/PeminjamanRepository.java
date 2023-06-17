@@ -11,6 +11,8 @@ import java.util.List;
 public interface PeminjamanRepository extends CrudRepository<Peminjaman, Integer> {
     List<Peminjaman> findByUserId(Integer userId);
 
+    boolean existsByUserIdAndBukuIsbn(Integer userId, String isbn);
+
     @Query("SELECT COUNT(p) FROM Peminjaman p")
     int getTotalCount();
 }

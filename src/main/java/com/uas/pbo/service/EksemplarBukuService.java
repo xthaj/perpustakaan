@@ -3,8 +3,11 @@ package com.uas.pbo.service;
 import com.uas.pbo.exceptions.BukuNotFoundException;
 import com.uas.pbo.model.Buku;
 import com.uas.pbo.model.EksemplarBuku;
+import com.uas.pbo.model.User;
+import com.uas.pbo.model.Waitlist;
 import com.uas.pbo.repository.BukuRepository;
 import com.uas.pbo.repository.EksemplarBukuRepository;
+import com.uas.pbo.repository.WaitlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,9 @@ public class EksemplarBukuService {
     private BukuService bukuService;
     @Autowired
     private BukuRepository bukuRepository;
+    @Autowired
+    private WaitlistService waitlistService;
+
 
 
     public int countEksemplar(String isbn) {
@@ -53,7 +59,18 @@ public class EksemplarBukuService {
             EksemplarBuku eksemplarBuku = new EksemplarBuku();
             eksemplarBuku.setBuku(buku);
             eksemplarBuku.setSedangDipinjam(false);
-            return repo.save(eksemplarBuku);
+            EksemplarBuku createdEksemplarBuku = repo.save(eksemplarBuku);
+
+            // Update waitlist
+            List<Waitlist> waitlistEntries = waitlistService.getWaitlistByBukuId(buku.getId());
+
+            for (Waitlist waitlist : waitlistEntries) {
+                User user = waitlist.getUser();
+                waitlist.setUpdated(true);
+                waitlistService.save(waitlist);
+            }
+
+            return createdEksemplarBuku;
         }
         return null;
     }

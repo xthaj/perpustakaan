@@ -12,6 +12,8 @@ public interface WaitlistRepository extends CrudRepository<Waitlist, Integer> {
 
     List<Waitlist> findByUserId(Integer userId);
 
+    List<Waitlist> findAll();
+
     List<Waitlist> findByBukuId(Integer bukuId);
 
     List<Waitlist> findByUserIdAndIsUpdated(Integer userId, boolean isUpdated);
@@ -20,5 +22,7 @@ public interface WaitlistRepository extends CrudRepository<Waitlist, Integer> {
 
     @Query("SELECT COUNT(w) FROM Waitlist w")
     int getTotalCount();
+
+
 
 }
