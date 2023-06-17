@@ -1,14 +1,11 @@
 package com.uas.pbo.controller;
 
-import com.uas.pbo.exceptions.*;
-import com.uas.pbo.exceptions.UserNotFoundException;
+import com.uas.pbo.exceptions.BukuNotFoundException;
 import com.uas.pbo.model.Buku;
 import com.uas.pbo.model.EksemplarBuku;
-import com.uas.pbo.model.Peminjaman;
 import com.uas.pbo.model.User;
 import com.uas.pbo.service.BukuService;
 import com.uas.pbo.service.EksemplarBukuService;
-import com.uas.pbo.service.PeminjamanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +23,6 @@ public class LibrarianController {
     private BukuService bukuService;
     @Autowired
     private EksemplarBukuService eksemplarBukuService;
-    @Autowired
-    private PeminjamanService peminjamanService;
-
 
     @GetMapping("/librarian/index")
     public String showIndexLibrarian(Model model) {
@@ -60,39 +54,26 @@ public class LibrarianController {
     }
 
     @GetMapping("/librarian/buku/{id}/edit")
-    public String showEditBukuForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
-        try {
-            Buku buku = bukuService.get(id);
-            model.addAttribute("buku", buku);
-            model.addAttribute("pageTitle", "Edit Buku");
-            return "librarian/buku_form";
-        } catch (BukuNotFoundException e) {
-            ra.addFlashAttribute("message", "Buku telah diedit.");
-            return "redirect:/librarian/buku";
-        }
+    public String showEditBukuForm(Model model) {
+        model.addAttribute("buku", new Buku());
+        model.addAttribute("pageTitle", "Tambah Buku Baru");
+
+        return "buku_form";
     }
 
-    @GetMapping("/librarian/buku/{id}/delete")
-    public String deleteBook(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        bukuService.delete(id);
-        ra.addFlashAttribute("message", "The book has been deleted successfully.");
-        return "redirect:/librarian/buku";
+    @GetMapping("/librarian/edit/{isbn}")
+    public String showEditForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        Optional<Buku> buku = bukuService.findBukuById(id);
+        model.addAttribute("buku", buku);
+        model.addAttribute("pageTitle", "Edit Buku");
+        return "buku_form";
     }
 
-    @PostMapping("/librarian/peminjaman/confirm/{id}")
-    public String confirmPeminjaman(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws PeminjamanNotFoundException {
-        peminjamanService.confirmPeminjaman(id);
-        redirectAttributes.addFlashAttribute("message", "Peminjaman sudah dikembalikan.");
-        return "redirect:/librarian/peminjaman";
-    }
+
 
 
     @GetMapping("/librarian/peminjaman")
     public String showPeminjamanLibrarian(Model model) {
-        List<Peminjaman> peminjamanList = peminjamanService.listAll();
-        model.addAttribute("listPeminjaman", peminjamanList);
-        model.addAttribute("pageTitle", "Daftar Peminjaman");
-
         return "librarian/peminjaman";
     }
 

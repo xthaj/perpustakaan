@@ -115,43 +115,35 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Peminjaman</h1>
-      </div>
-
-      <div th:if="${message}" class="alert alert-danger text-center">
-        [[${message}]]
+        <h1 class="h2">Buku</h1>
       </div>
 
       <div class="table-responsive">
-
         <table class="table table-striped table-sm">
+
           <thead>
           <tr>
             <th scope="col">ISBN</th>
-            <th scope="col">Judul Buku</th>
             <th scope="col">ID Eksemplar</th>
             <th scope="col">Nama Peminjam</th>
-            <th scope="col">Konfirmasi Pengembalian</th>
+            <th>Konfirmasi Pengembalian</th>
           </tr>
           </thead>
           <tbody>
-          <th:block th:each="peminjaman : ${listPeminjaman}">
+          <th:block th:each="buku: ${listBuku}">
             <tr>
-              <td th:text="${peminjaman.buku.isbn}"></td>
-              <td th:text="${peminjaman.buku.judul}"></td>
-              <td th:text="${peminjaman.eksemplarBuku.id}"></td>
-              <td th:text="${peminjaman.user.nama}"></td>
+              <td th:text="${buku.isbn}"></td>
+              <td th:text="${buku.judul}"></td>
+              <td th:text="${buku.penulis}"></td>
               <td>
-                <form th:action="@{'/librarian/peminjaman/confirm/' + ${peminjaman.id}}" method="post">
-                  <input type="hidden" name="_method" value="post" />
-                  <button type="submit">Sudah dikembalikan</button>
-                </form>
+                <span th:if="${buku.tentangAlin}">Alin</span>
+                <span th:if="${buku.tentangKalkulus}">Kalkulus</span>
+                <span th:if="${buku.tentangMetsur}">Metsur</span>
               </td>
             </tr>
           </th:block>
           </tbody>
         </table>
-
       </div>
     </main>
   </div>

@@ -19,7 +19,7 @@ public class Peminjaman {
     private EksemplarBuku eksemplarBuku;
 
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "nim")
     private User user;
 
     @Column(name = "tanggal_peminjaman")

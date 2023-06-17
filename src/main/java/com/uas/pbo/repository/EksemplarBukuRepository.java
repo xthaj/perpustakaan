@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface EksemplarBukuRepository extends CrudRepository<EksemplarBuku, Integer> {
@@ -23,11 +22,12 @@ public interface EksemplarBukuRepository extends CrudRepository<EksemplarBuku, I
         return null;
     }
 
+    List<EksemplarBuku> findAllByIsbn(String isbn);
+
     @Query("SELECT b FROM Buku b WHERE b.isbn = :isbn")
     Buku getBookByIsbn(@Param("isbn") String isbn);
 
     @Query("SELECT e FROM EksemplarBuku e WHERE e.buku.isbn = :isbn")
     List<EksemplarBuku> findByBukuIsbn(@Param("isbn") String isbn);
-
 
 }

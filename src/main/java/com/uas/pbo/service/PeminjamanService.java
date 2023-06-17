@@ -23,6 +23,8 @@ public class PeminjamanService {
         return peminjamanRepository.save(peminjaman);
     }
 
+
+
     public Peminjaman getById(Integer id) throws PeminjamanNotFoundException {
         Optional<Peminjaman> peminjamanOptional = peminjamanRepository.findById(id);
         if (peminjamanOptional.isPresent()) {
@@ -33,6 +35,10 @@ public class PeminjamanService {
 
     public List<Peminjaman> listAll() {
         return (List<Peminjaman>) peminjamanRepository.findAll();
+    }
+
+    public List<Peminjaman> listByUserId(Integer userId) {
+        return peminjamanRepository.findByUserId(userId);
     }
 
     public void delete(Integer id) throws PeminjamanNotFoundException {
