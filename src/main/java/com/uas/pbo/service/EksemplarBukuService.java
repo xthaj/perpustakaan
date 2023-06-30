@@ -23,12 +23,9 @@ public class EksemplarBukuService {
     @Autowired
     private EksemplarBukuRepository repo;
     @Autowired
-    private BukuService bukuService;
-    @Autowired
     private BukuRepository bukuRepository;
     @Autowired
     private WaitlistService waitlistService;
-
 
 
     public int countEksemplar(String isbn) {
@@ -40,18 +37,6 @@ public class EksemplarBukuService {
     public List<EksemplarBuku> findByBukuIsbn(String isbn) {
         return repo.findByBukuIsbn(isbn);
     }
-
-    public List<EksemplarBuku> findByBukuId(Integer id) throws BukuNotFoundException {
-        Optional<EksemplarBuku> result = repo.findById(id);
-        if (result.isPresent()) {
-            List<EksemplarBuku> eksemplarBukuList = new ArrayList<>();
-            eksemplarBukuList.add(result.get());
-            return eksemplarBukuList;
-        }
-
-        throw new BukuNotFoundException();
-    }
-
 
     public EksemplarBuku createEksemplarBukuByIsbn(String isbn) {
         Buku buku = bukuRepository.findByIsbn(isbn);

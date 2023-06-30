@@ -157,3 +157,27 @@ a.h4 {
 a.h4:hover {
   color: var(--yellow);
 }
+
+#bigger-p p,
+#bigger-p td {
+  font-size: 1.3em;
+}
+
+#bigger-p label {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.koneksi {
+  background-color: var(--light-blue);
+}
+
+.koneksi:hover {
+  background-color: var(--yellow);
+}
+
+.form-control.pertanyaan {
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+}

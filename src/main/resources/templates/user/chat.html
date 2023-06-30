@@ -15,7 +15,7 @@
 
     <link rel="icon" type="image/x-icon" th:href="@{/img/logo.png}">
 </head>
-<body>
+<body id="bigger-p">
 
 <div th:replace="fragments :: header"></div>
 
@@ -28,44 +28,47 @@
                 <h1 class="h2">Chat dengan Bot</h1>
             </div>
 
-<!--            here-->
+            <noscript>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="text-danger">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable Javascript and reload this page!</h2>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
 
-            <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-                enabled. Please enable
-                Javascript and reload this page!</h2></noscript>
             <div id="main-content" class="container">
                 <div class="row">
-                    <div>
+                    <div class="col-md-12">
                         <form class="form-inline">
                             <div class="form-group">
                                 <label for="connect">Koneksi ke FAQ bot kami!</label><br>
-                                <button id="connect" class="btn btn-default" type="submit">Koneksi</button>
-                                <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Putuskan Koneksi
-                                </button>
+                                <button id="connect" class="btn btn-default koneksi" type="submit">Koneksi</button>
+                                <button id="disconnect" class="btn btn-default" type="submit" disabled>Putuskan Koneksi</button>
                             </div>
                         </form>
-
-                        <div id="status" class="row">
-                            <div class="col-md-12">
-                                <p>Status: <span id="status-text">Disconnected</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Status: <span id="status-text">Tidak terkoneksi! Klik button koneksi untuk mulai bertanya pada bot</span></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <form id="question-form" class="form-inline">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label for="question">Pertanyaan Anda</label><br>
+                                <input type="text" id="question" class="form-control pertanyaan" placeholder="Pertanyaan">
                             </div>
                         </div>
-                    </div>
-
-                    <br>
-
-                    <div>
-                        <form id="question-form" class="form-inline">
-                            <div class="form-group col-md-10">
-                                <label for="question">Pertanyaan Anda</label><br>
-                                <input type="text" id="question" class="form-control" placeholder="Pertanyaan" style="width: 100%">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button id="send" class="btn btn-primary" type="submit">Tanya</button>
                             </div>
-
-                            <div class="form-group col-md-2">
-                                <button id="send" class="btn btn-default" type="submit">Tanya</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -81,6 +84,7 @@
                     </div>
                 </div>
             </div>
+
 
 
 

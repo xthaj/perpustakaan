@@ -6,10 +6,10 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
-        $("#status-text").text("Connected");
+        $("#status-text").text("Terkoneksi! Silakan tanya pertanyaan Anda");
     } else {
         $("#conversation").hide();
-        $("#status-text").text("Disconnected");
+        $("#status-text").text("Koneksi dimatikan");
     }
     $("#faq-list").html("");
     isConnected = connected;
