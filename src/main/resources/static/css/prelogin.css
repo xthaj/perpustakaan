@@ -1,0 +1,77 @@
+:root {
+  --light-blue: #a9cfe7 !important;
+  --dark-blue: #236d9e !important;
+  --white: #fbfcfe !important;
+  --yellow: #f8d165 !important;
+}
+
+body {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100vh !important;
+  background-color: var(--dark-blue) !important;
+}
+
+#ath .login-form,
+#ath .registration-form {
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: var(--light-blue);
+}
+
+#ath h2 {
+  color: var(--dark-blue);
+}
+
+#ath .alert {
+  background-color: var(--yellow);
+  color: var(--dark-blue);
+  text-align: center;
+}
+
+#ath button[type="submit"] {
+  background-color: var(--dark-blue);
+  border-color: var(--dark-blue);
+}
+
+#ath button[type="submit"]:hover {
+  color: var(--yellow);
+}
+
+#ath .login-form .register-button,
+#ath .registration-form .login-link {
+  color: var(--dark-blue);
+}
+
+#ath .login-form .register-button:hover,
+#ath .registration-form .login-link:hover {
+  color: var(--yellow);
+}
+
+#ath .login-form img {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+}
+
+#ath a {
+  text-decoration: none;
+}
+
+#ath .mini-text {
+  padding-top: 1em;
+}
+
+#ath .mini-text a {
+  color: var(--dark-blue);
+}
+
+#ath .mini-text a:hover {
+  color: var(--yellow);
+}
+
+#ath .form-check {
+  padding-top: 1em;
+}

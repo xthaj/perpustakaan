@@ -46,10 +46,10 @@ public class UserService {
                 session.setAttribute("userId", user.getId());
                 return user;
             } else {
-                throw new InvalidCredentialsException("Invalid password");
+                throw new InvalidCredentialsException("Password salah!");
             }
         } else {
-            throw new UserNotFoundException("NIM is not registered");
+            throw new UserNotFoundException("NIM kosong atau tidak terdaftar!");
         }
     }
 

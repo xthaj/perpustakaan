@@ -6,6 +6,7 @@ import com.uas.pbo.model.*;
 import com.uas.pbo.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,8 +79,6 @@ public class LibrarianController {
             Buku buku = bukuService.get(id);
             model.addAttribute("buku", buku);
             model.addAttribute("pageTitle", "Edit Buku");
-
-
             return "librarian/buku_form";
         } catch (BukuNotFoundException e) {
             ra.addFlashAttribute("message", "Buku telah diedit.");
@@ -89,8 +88,12 @@ public class LibrarianController {
 
     @GetMapping("/librarian/buku/{id}/delete")
     public String deleteBook(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        bukuService.delete(id);
-        ra.addFlashAttribute("message", "Buku berhasil dihapus.");
+        try {
+            bukuService.delete(id);
+            ra.addFlashAttribute("message", "Buku berhasil dihapus.");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "Ada eksemplar buku masih dipinjam atau terjadi kesalahan saat menghapus buku.");
+        }
         return "redirect:/librarian/buku";
     }
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<nav id="sidebarMenuUser" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" th:fragment="navUser">
+    <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link justify-content-between align-items-center" aria-current="page" href="#">
+                    <img th:src="@{/img/logo.png}" alt="Logo" class="logo-img">
+                </a>
+            </li>
+
+            <li>
+                <a class="nav-link" id="dashboard-nav-user" th:href="@{/user/index}">
+                    <span data-feather="home" class="align-text-bottom"></span>
+                    Dashboard
+                </a>
+            </li>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="buku-nav-user" th:href="@{/user/buku}">
+                    <span data-feather="file" class="align-text-bottom"></span>
+                    Eksplorasi Buku
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="peminjaman-nav-user" th:href="@{/user/peminjaman}">
+                    <span data-feather="file" class="align-text-bottom"></span>
+                    Peminjaman
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="waitlist-nav-user" th:href="@{/user/waitlist}">
+                    <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                    Waitlist
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="chat-nav-user" th:href="@{/user/chat}">
+                    <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                    FAQ Bot
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+</body>
+</html>

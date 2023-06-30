@@ -6,6 +6,7 @@ import com.uas.pbo.model.Buku;
 import com.uas.pbo.model.User;
 import com.uas.pbo.repository.BukuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,9 +32,14 @@ public class BukuService {
         throw new BukuNotFoundException();
     }
 
-    public void delete(Integer id) {
-        repo.deleteById(id);
+    public void delete(Integer id) throws Exception {
+        try {
+            repo.deleteById(id);
+        } catch (Exception e) {
+            throw e;
+        }
     }
+
 
 
 

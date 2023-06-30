@@ -51,6 +51,11 @@ public class UserController {
         return "user/buku";
     }
 
+    @GetMapping("/user/chat")
+    public String chatBot() {
+        return "user/chat";
+    }
+
     @GetMapping("/user/peminjaman")
     public String viewPeminjaman(Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
@@ -150,6 +155,7 @@ public class UserController {
         waitlistService.removeWaitlistById(waitlistId);
         return "redirect:/user/index";
     }
+
 
 
 
